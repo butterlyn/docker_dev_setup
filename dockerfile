@@ -54,34 +54,19 @@ RUN	${SCRIPT_PATH}/install_gh_cli.sh
 #RUN	${SCRIPT_PATH}/clone_all_repos.sh
 WORKDIR	/root
 
-# # VSCODE INSIDERS SETUP ~~~~~~~~~~~~~~~~~
+# VSCODE INSIDERS SETUP ~~~~~~~~~~~~~~~~~
 
-# # install vscode insiders
+# install vscode insiders
 
-# WORKDIR /root
-
-# RUN curl -L https://code.visualstudio.com/sha/download?build=insider&os=linux-deb-×64 -o vscode.deb
-# RUN apt install ./vscode.deb -y
-# RUN rm vscode.deb
+#RUN	curl -L --output vscode-insiders.deb "https://code.visualstudio.com/sha/download?build=insider&os=linux-deb-x64" && \
+#	apt install ./vscode-insiders.deb -y && \
+#	rm ./vscode-insiders.deb
 
 # CONDA SETUP ~~~~~~~~~~~~~~~~~
-
-# configure conda channels
-#RUN	conda config --add channels conda-forge
-
-# update conda base using .yml file on local machine
-#RUN	conda env update --file /root/temp/data/environment_base.yml -n base --prune && \
-#	conda clean -afy
 
 RUN	conda install conda -y && \
 	conda env create --file ${DATA_PATH}/environment_NB_base.yml --name NB_base && \
 	conda clean -afy
-
-# # create new coda environment using environment.yml on local machine
-# COPY data/environment.yml
-# RUN conda env create -f environment.yml
-# # set conda base as default environment in bash
-# # https://pythonspeed.com/articles/activate-conda-dockerfile/
 
 # run subsequent commands in conda base environment
 # SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
@@ -96,12 +81,10 @@ ENV	SCRIPT_PATH=
 WORKDIR /root/documents
 
 # open as a dev remote in vscode-insiders
-# CMD ["code-insiders", "."]
+#ENTRYPOINT ["code-insiders", "--no-sandbox", "."]
 
 # open as bach terminal
-# CMD ["bash"]
+CMD ["bash"]
 
-# Script that is run every time a (alread built) container is run
-# ENTRYPOINT ["conda activate"]
-# Conda environment can be overridded when running running container `docker run -ir <image_name> <conda environment name>
-# CMD ["base"]
+# Acitvate conda environment
+#ENTRYPOINT	["conda activate NB_base"]
