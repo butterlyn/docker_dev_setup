@@ -24,9 +24,7 @@ read OPENAI_KEY
 DATETIME_KEY=$(date +%y-%m-%d_%H.%M)
 echo 'Setting dev_container image tag to datetime key: '
 echo $DATETIME_KEY
-
-# build dev container
-sudo docker build --tag butterlyn/dev_container:$DATETIME_KEY --build-arg OPENAI_KEY=$OPENAI_KEY --progress=plain .
+docker-compose build
 
 
 if [ "$(docker ps -a -q -f name=dev_container)" ]; then
@@ -35,6 +33,6 @@ if [ "$(docker ps -a -q -f name=dev_container)" ]; then
 else
     echo -e "Container \"dev_container\" does not exist."
 fi
-
-# run dev container
+docker-compose up
 docker run -it --name dev_container --volume $HOME/Documents:/root/documents/mount butterlyn/dev_container:$DATETIME_KEY
+
