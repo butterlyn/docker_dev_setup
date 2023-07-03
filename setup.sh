@@ -16,7 +16,6 @@ else
     echo "VSCode Insiders is already installed"
 fi
 
-
 # Set sensitive information from user as environment variables
 echo "Enter OpenAI key (or leave blank): "
 read OPENAI_KEY
@@ -26,8 +25,7 @@ echo 'Setting dev_container image tag to datetime key: '
 echo $DATETIME_KEY
 
 # build dev container
-sudo docker build --tag butterlyn/dev_container:$DATETIME_KEY --build-arg OPENAI_KEY=$OPENAI_KEY --progress=plain .
-
+docker-compose build --build-arg OPENAI_KEY=$OPENAI_KEY --progress=plain .
 
 if [ "$(docker ps -a -q -f name=dev_container)" ]; then
     echo -e "Container \"dev_container\" exists. Removing..."
@@ -37,4 +35,5 @@ else
 fi
 
 # run dev container
-docker run -it --name dev_container --volume $HOME/Documents:/root/documents/mount butterlyn/dev_container:$DATETIME_KEY
+docker-compose up -d
+
