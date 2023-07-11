@@ -1,5 +1,5 @@
 # SET BASE IMAGE ~~~~~~~~~~~~~~~
-FROM	condaforge/mambaforge:4.10.1-5
+FROM	condaforge/mambaforge:latest
 
 # DEFINE TEMPORARY ARGUMENTS FOR FOLDER PATHS ~~~~~~~~~~~~~~~~~
 ENV	DATA_PATH=/root/temp/data/
@@ -25,6 +25,7 @@ COPY    scripts/ ${SCRIPT_PATH}
 RUN     chmod +x ${SCRIPT_PATH}/*
 
 # INSTALL APT PACKAGES ~~~~~~~~~~~~~~~~~
+ENV	DEBIAN_FRONTEND noninteractive
 RUN	apt-get update && apt-get upgrade -y && \
 	xargs -a ${DATA_PATH}/apt-packages.txt apt-get install -y && \
 	rm -rf /var/lib/apt/lists/* apt-packages.txt
@@ -61,5 +62,5 @@ WORKDIR /root/documents
 CMD ["bash"]
 
 # Acitvate conda environment
-ENTRYPOINT	["conda", "run", "-n", "NB_base", "/bin/bash", "-c"]
+ENTRYPOINT	["conda", "activate", "--name", "NB_base"]
 

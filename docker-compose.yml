@@ -7,6 +7,6 @@ services:
     volumes:
       - ./data:/root/temp/data
       - ./scripts:/root/temp/scripts
-      - ./documents:/root/documents
+      - /home/butterlyn/Documents:/root/documents/mount
     environment:
       - OPENAI_KEY

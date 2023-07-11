@@ -27,13 +27,6 @@ echo $DATETIME_KEY
 # build dev container
 docker-compose build --build-arg OPENAI_KEY=$OPENAI_KEY --progress=plain .
 
-if [ "$(docker ps -a -q -f name=dev_container)" ]; then
-    echo -e "Container \"dev_container\" exists. Removing..."
-    docker container rm dev_container
-else
-    echo -e "Container \"dev_container\" does not exist."
-fi
-
 # run dev container
-docker-compose up -d
+docker-compose up
 
